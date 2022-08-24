@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class DVD {
 
-    //initialising com.assignment.dvdlibrary.dvdlibrary.DVD objects
     private String title;
     private String releaseDate;
     private String MPAA_RATING;

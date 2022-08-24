@@ -1,29 +1,25 @@
 package com.assignment.dvdlibrary.ui;
 
+import com.assignment.dvdlibrary.controller.DVDController;
 import com.assignment.dvdlibrary.dvdlibrary.DVD;
-import com.assignment.dvdlibrary.controller.DVDCollections;
 
-import java.text.ParseException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class DVDRun {
+public class UI {
+    private final DVDController dvdCollections = new DVDController();
+    private final Misc misc;
 
-    static DVDCollections dvdCollections = new DVDCollections();
-    static Scanner scan = new Scanner(System.in);
-
-    public static void main(String[] args) throws ParseException {
-        System.out.println(Misc.startMessage);
-        System.out.println(Misc.greet);
-        start();
+    public UI (Misc misc) {
+        this.misc = misc;
     }
 
-    public static void start() throws ParseException {
+     public void start() {
         label:
         while (true) {
-            System.out.println(Misc.instructions);
-            System.out.print(Misc.cmdCursor);
-            int selection = Integer.parseInt(scan.nextLine());
+            System.out.println(misc.instructions);
+            System.out.print(misc.cmdCursor);
+            int selection = Integer.parseInt(misc.input());
             switch (selection) {
                 case 1:
                     readDVD();
@@ -65,47 +61,39 @@ public class DVDRun {
         System.out.println("Goodbye!");
     }
 
-    private static void editDVD() {
-        System.out.print("Enter the title of the DVD (type exit to exit): ");
-        String input = scan.nextLine();
-        if (!input.equals("exit")) dvdCollections.editCollection(input, scan);
+    private void editDVD() {
+        String input = misc.input("Enter the title of the DVD (type exit to exit)");
+        if (!input.equals("exit")) dvdCollections.editCollection(input);
     }
 
-    private static void showDVDs() {
+    private void showDVDs() {
         dvdCollections.listCollections();
     }
 
-    private static void removeDVD() {
+    private void removeDVD() {
         System.out.println("Enter your DVD title to remove");
-        System.out.print(Misc.cmdCursor);
-        String title = scan.nextLine();
+        String title = misc.input(misc.cmdCursor);
         System.out.println(dvdCollections.removeCollection(title));
     }
 
-    private static void readDVD() throws ParseException {
+    private void readDVD() {
         System.out.println("Adding a DVD, please enter DVD format in order: ");
-        System.out.print("Title: ");
-        String title = scan.nextLine();
-        System.out.print("Release date (in dd-mm-yyyy format): ");
-        String date = scan.nextLine();
-        System.out.print("MPAA Rating: ");
-        String MPAA_RATING = scan.nextLine();
-        System.out.print("Director Name: ");
-        String directorName = scan.nextLine();
-        System.out.print("Studio: ");
-        String studio = scan.nextLine();
-        System.out.print("Comments about the DVD: ");
-        String userRating = scan.nextLine();
+        String title = misc.input("Title");
+        String date = misc.input("Release date (in dd-mm-yyyy format)");
+        String MPAA_RATING = misc.input("Mpaa Rating");
+        String directorName = misc.input("Director name");
+        String studio = misc.input("Studio");
+        String userRating = misc.input("Comments about the DVD");
         DVD dvd = new DVD(title, date, MPAA_RATING, directorName, studio, userRating);
         dvdCollections.addToCollection(dvd);
         System.out.println("Your dvd has been added!");
     }
 
-    private static void batchAction(String action) throws ParseException {
+    private void batchAction(String action) {
         String input;
         do {
             System.out.print("Continue? (Y/N): ");
-            input = scan.nextLine().toLowerCase(Locale.ROOT);
+            input = misc.input().toLowerCase(Locale.ROOT);
             if ("y".equals(input)) {
                 switch (action) {
                     case "add":
@@ -125,21 +113,17 @@ public class DVDRun {
 
     }
 
-    private static void showContents() {
-        System.out.println("Enter the title of your DVD");
-        System.out.print(Misc.cmdCursor);
-        String title = scan.nextLine();
+    private void showContents() {
+        String title = misc.input("Enter the title of your DVD");
         dvdCollections.showContents(title);
     }
 
-    private static void searchDVD() {
-        System.out.println("Enter the title of your DVD");
-        System.out.print(Misc.cmdCursor);
-        String title = scan.nextLine();
+    private void searchDVD() {
+        String title = misc.input("Enter the title of your DVD");
         if (dvdCollections.doesExist(title)) {
             System.out.format("Found DVD titled: %s%n" +
                     "would you like to view the contents? (Y/N) ", title);
-            String selection = scan.nextLine().toLowerCase(Locale.ROOT);
+            String selection = misc.input().toLowerCase(Locale.ROOT);
             if (selection.equals("y")) {
                 dvdCollections.showContents(title);
             }
@@ -148,11 +132,11 @@ public class DVDRun {
         }
     }
 
-    private static void saveDVDs() {
+    private void saveDVDs() {
         dvdCollections.saveDVDList();
     }
 
-    private static void loadDVDs(DVDCollections collections) {
+    private void loadDVDs(DVDController collections) {
         dvdCollections.loadDVDlist(collections);
     }
 }

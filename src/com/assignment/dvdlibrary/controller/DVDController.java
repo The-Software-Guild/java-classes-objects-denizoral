@@ -6,21 +6,20 @@ import com.assignment.dvdlibrary.ui.Misc;
 
 import java.util.*;
 
-public class DVDCollections {
-    //Hashmap will hold the title and the com.assignment.dvdlibrary.dvdlibrary.DVD data.
-    Map<String, List<DVD>> dvdList;
-    Misc misc = new Misc();
+public class DVDController {
+    private Map<String, DVD> dvdList;
+    private final Misc misc = new Misc();
 
-    public DVDCollections() {
+    public DVDController() {
         dvdList = new HashMap<>();
     }
 
     //method to add dvds
     public void addToCollection(DVD dvd) {
-        dvdList.putIfAbsent(dvd.getTitle(), Collections.singletonList(dvd));
+        dvdList.putIfAbsent(dvd.getTitle(), dvd);
     }
 
-    public void editCollection(String title, Scanner scan){
+    public void editCollection(String title){
         if (doesExist(title)) {
             System.out.print("What would you like to edit?\n" +
                     "1 - Title\n" +
@@ -31,40 +30,34 @@ public class DVDCollections {
                     "6 - User rating\n" +
                     "7 - Exit\n");
             System.out.print(">> ");
-            int selection = Integer.parseInt(scan.nextLine());
+            int selection = Integer.parseInt(misc.input());
             switch (selection) {
                 case 1:
-                    System.out.print("Editing title: ");
-                    String newTitle = scan.nextLine();
-                    dvdList.get(title).get(0).setTitle(newTitle);
-                    DVD newDvd = dvdList.get(title).get(0);
+                    String newTitle = misc.input("Editing title");
+                    dvdList.get(title).setTitle(newTitle);
+                    DVD newDvd = dvdList.get(title);
                     removeCollection(title);
                     addToCollection(newDvd);
                     break;
                 case 2:
-                    System.out.println("Editing release date (in DD-MM-YYYY format): ");
-                    String newDate = scan.nextLine();
-                    dvdList.get(title).get(0).setReleaseDate(newDate);
+                    String newDate = misc.input("Editing release date (in DD-MM-YYYY format)");
+                    dvdList.get(title).setReleaseDate(newDate);
                     break;
                 case 3:
-                    System.out.print("Editing MPAA RATING: ");
-                    String newMpaaRating = scan.nextLine();
-                    dvdList.get(title).get(0).setMPAA_RATING(newMpaaRating);
+                    String newMpaaRating = misc.input("Editing mpaa rating");
+                    dvdList.get(title).setMPAA_RATING(newMpaaRating);
                     break;
                 case 4:
-                    System.out.print("Editing director name: ");
-                    String newDirectorName = scan.nextLine();
-                    dvdList.get(title).get(0).setDirectorName(newDirectorName);
+                    String newDirectorName = misc.input("Editing director name");
+                    dvdList.get(title).setDirectorName(newDirectorName);
                     break;
                 case 5:
-                    System.out.print("Editing studio name: ");
-                    String newStudio = scan.nextLine();
-                    dvdList.get(title).get(0).setStudio(newStudio);
+                    String newStudio = misc.input("Editing studio name");
+                    dvdList.get(title).setStudio(newStudio);
                     break;
                 case 6:
-                    System.out.print("Editing user rating: ");
-                    String newUserRating = scan.nextLine();
-                    dvdList.get(title).get(0).setUserRating(newUserRating);
+                    String newUserRating = misc.input("Editing user rating");
+                    dvdList.get(title).setUserRating(newUserRating);
                     break;
                 default:
                     break;
@@ -105,7 +98,7 @@ public class DVDCollections {
         save.clearFile();
         if (dvdList.size() >= 1) {
             for (String dvds : dvdList.keySet()) {
-                save.saveToFile(dvdList.get(dvds).get(0));
+                save.saveToFile(dvdList.get(dvds));
                 System.out.format("saving %s%n", dvds);
             }
             System.out.println("Saved.");
@@ -114,16 +107,17 @@ public class DVDCollections {
         }
     }
 
-    public void loadDVDlist(DVDCollections collections) {
+    public void loadDVDlist(DVDController collections) {
         DVDFile load = new DVDFile();
         load.readFromFile(collections);
     }
 
     public void showContents(String title) {
-        System.out.println(dvdList.get(title).get(0).toString());
+        System.out.println(dvdList.get(title).toString());
     }
 
     public boolean doesExist(String title) {
         return dvdList.containsKey(title);
     }
+
 }

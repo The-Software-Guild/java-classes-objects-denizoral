@@ -1,7 +1,7 @@
 package com.assignment.dvdlibrary.file;
 
 import com.assignment.dvdlibrary.dvdlibrary.DVD;
-import com.assignment.dvdlibrary.controller.DVDCollections;
+import com.assignment.dvdlibrary.controller.DVDController;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +22,8 @@ public class DVDFile {
                     .append("\n").append(dvd.getStudio())
                     .append("\n").append(String.valueOf(dvd.getUserRating()))
                     .append("\n");
+//            saved.append(dvd.getTitle()+":"+dvd.getReleaseDate()+":"+dvd.getRating()+
+//                    ":"+dvd.getDirectorName()+":"+dvd.getStudio()+":"+dvd.getUserRating());
             saved.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,7 +50,7 @@ public class DVDFile {
     }
 
 
-    public void readFromFile(DVDCollections collections) {
+    public void readFromFile(DVDController collections) {
 //        DVDCollections dvdCollections = new DVDCollections();
         File f = new File("DVDLibrary.txt");
         Scanner s = null;

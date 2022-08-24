@@ -1,8 +1,10 @@
 package com.assignment.dvdlibrary.ui;
 
+import java.util.Scanner;
+
 public class Misc {
 
-    static String startMessage = "  _______      _______    _      _ _                          \n" +
+    public String startMessage = "  _______      _______    _      _ _                          \n" +
             " |  __ \\ \\    / /  __ \\  | |    (_) |                         \n" +
             " | |  | \\ \\  / /| |  | | | |     _| |__  _ __ __ _ _ __ _   _ \n" +
             " | |  | |\\ \\/ / | |  | | | |    | | '_ \\| '__/ _` | '__| | | |\n" +
@@ -11,9 +13,9 @@ public class Misc {
             "                                                         __/ |\n" +
             "                                                        |___/";
 
-    static String greet = "Welcome to DVD library!\n";
+    public String greet = "Welcome to DVD library!\n";
 
-    static String instructions =
+    public String instructions =
             "1 - Add DVD\n" +
             "2 - Edit DVD\n" +
             "3 - Remove DVD\n" +
@@ -27,11 +29,21 @@ public class Misc {
             "11 - Load DVD\n" +
             "12 - EXIT\n";
 
-    static String listDVDs = "\n=========================\n" +
+    public String listDVDs = "\n=========================\n" +
             "=== Listing your DVDs ===\n" +
             "=========================";
 
-    static String cmdCursor = ">> ";
+    public String cmdCursor = ">> ";
 
+    public String input(String s) {
+        System.out.print(s + ": ");
+        Scanner scan = new Scanner(System.in);
+        return scan.nextLine();
+    }
+
+    public String input() {
+        Scanner scan = new Scanner(System.in);
+        return scan.nextLine();
+    }
 
 }
